@@ -1,7 +1,3 @@
-<p align="center">
-  <a href="" rel="noopener">
- <img src="./res/io.png" alt="IO_IMAGE_LOGO"></a>
-</p>
 <h3 align="center">IO_IMAGE LIBRARY</h3>
 
 <p align="center"> Full C++ Computer Vision Library 
