@@ -22,15 +22,18 @@ What we'll attemp is to try to retrieve with the minimal error as possible the i
 No special installation needed, just copy and past "src" and "include" folders in your project directory, a makefile and windows bash script are provided by default.
 Note : for display purpose, a save to PNG moule is installed by default, just delete them if you want.
 
-##  ✔✔ Features <a name = "features">
+##  ✔ Features <a name = "features">
 
 -  colors spaces conversion(rgb, hsl, hsv, ...)
 -  image segmentation(threshold method and otsu nobuyuki method)
 -  dominants color computing(default method and Lloyd algorithm)
 -  colorisation by lut (look up table)
--  color overscrenning method(default method and Lloyd Algorithm)
--  channels extraction(rgb to redn green, blue, ...) 
+-  color overscrenning method(default method and kmean Algorithm)
+-  channels extraction(rgb to red, green, blue, ...) 
 -  color modes conversion(rgb to gray, rgba to rgb, rgb to binary)
+-  blur algorithm based on mean weights
+-  gaussian blur algorithm based on gaussian density repartition
+-  edge detection algorithm
 -  mixed median cut qunatification(in development)
 -  luminance to chromatic retrieving by neighbour search(in development)
 -  colorisation par neighbour propagation(in development)
