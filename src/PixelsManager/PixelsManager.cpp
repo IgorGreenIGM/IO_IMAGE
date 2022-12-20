@@ -6,18 +6,18 @@
 /**
  * @brief converting a rgb input buffer to a grayscale buffer
  *
- *@details it consit for each pixel sample(red-green-blue) to determine the luminance value.
- *in the output, every rgb value should replaced by the related luminance value.
+ * @details it consit for each pixel sample(red-green-blue) to determine the luminance value.
+ * in the output, every rgb value should replaced by the related luminance value.
  *
- *@param rgb_in the rgb input buffer
- *@param rgb_len the rgb buffer size
- *@param mode indicate how the grayscale ouput should be, each mode implement a different luminace value calculation
- *@param gray_len a reference to the grayscale buffer ouptut size
+ * @param rgb_in the rgb input buffer
+ * @param rgb_len the rgb buffer size
+ * @param mode indicate how the grayscale ouput should be, each mode implement a different luminace value calculation
+ * @param gray_len a reference to the grayscale buffer ouptut size
  *
- *@return uint8_t* output converted grayscale buffer
- *@exception std::invalid_argument case none of the avaible gray convertion mode selected
- *@exception std::bad_alloc case the output buffer memory allocation failed
- *@see PixelsManager::gray_level
+ * @return uint8_t* output converted grayscale buffer
+ * @exception std::invalid_argument case none of the avaible gray convertion mode selected
+ * @exception std::bad_alloc case the output buffer memory allocation failed
+ * @see PixelsManager::gray_level
  */
 uint8_t *PixelsManager::rgb_to_grayscale(const uint8_t *rgb_in, int rgb_len, int mode, int &gray_len)
 {
@@ -66,13 +66,13 @@ uint8_t *PixelsManager::rgb_to_grayscale(const uint8_t *rgb_in, int rgb_len, int
 /**
  * @brief converting a rgb input buffer to a specific channel buffer
  * @details for separating each single color channel from the pixelBuffer
- *it consist to, for a selected channel in each pixel sample to preserve only the related channel and set other channels to 0.
- *example : p1(R = 160, G = 111, B = 180) -> p1_red(R = 160, G = 0, B = 0);
- *@param rgb_in the rgb input buffer
- *@param rgb_len the rgb buffer size
- *@param channel the wanted channel color you want to extract(either Red, Green or Blue).
- *@param ch_len a reference to the channel buffer ouptut size
- *@return uint8_t* one-channel output buffer
+ * it consist to, for a selected channel in each pixel sample to preserve only the related channel and set other channels to 0.
+ * example : p1(R = 160, G = 111, B = 180) -> p1_red(R = 160, G = 0, B = 0);
+ * @param rgb_in the rgb input buffer
+ * @param rgb_len the rgb buffer size
+ * @param channel the wanted channel color you want to extract(either Red, Green or Blue).
+ * @param ch_len a reference to the channel buffer ouptut size
+ * @return uint8_t* one-channel output buffer
  *
  * @exception std::invalid_argument case none of the avaible color_channel mode for extraction is selected
  * @exception std::bad_alloc the case output buffer memory allocation failed
@@ -114,14 +114,14 @@ uint8_t *PixelsManager::rgb_to_channel(const uint8_t *rgb_in, int rgb_len, int c
 
 /**
  * @brief converting a rgb input buffer to a specific **single** channel buffer
- *@details for separating each single color channel from the pixelBuffer
- *it consist to, for a selected channel in each pixel sample to preserve and return only the related channel
- *@note suffix is means separated.
- *@param rgb_in the rgb input buffer
- *@param rgb_len the rgb buffer size
- *@param channel the wanted channel color you want to extract(either Red, Green or Blue).
- *@param ch_len a reference to the channel buffer ouptut size
- *@return uint8_t* one-separated-channel buffer
+ * @details for separating each single color channel from the pixelBuffer
+ * it consist to, for a selected channel in each pixel sample to preserve and return only the related channel
+ * @note suffix is means separated.
+ * @param rgb_in the rgb input buffer
+ * @param rgb_len the rgb buffer size
+ * @param channel the wanted channel color you want to extract(either Red, Green or Blue).
+ * @param ch_len a reference to the channel buffer ouptut size
+ * @return uint8_t* one-separated-channel buffer
  *
  * @exception std::invalid_argument case none of the avaible color_channel mode for extraction is selected
  * @exception std::bad_alloc case the output buffer memory allocation failed
@@ -159,17 +159,17 @@ uint8_t *PixelsManager::rgb_to_channel_s(const uint8_t *rgb_in, int rgb_len, int
 }
 
 /**
- *@brief method for converting a grayscale input buffer to a binary output buffer by otsu nobuyuki method
- *@note Implementation of the Otsu Nobuyuki binarisation method -see on wikipedia-
- *according to experience result, binarisation method works better on a grayscale image.
- *then this is only working with a grayscale input.
- *@param gray_in the grayscale input buffer
- *@param gray_len the grayscale input buffer size
- *@param bin_len a reference to the otsu binarised buffer size
+ * @brief method for converting a grayscale input buffer to a binary output buffer by otsu nobuyuki method
+ * @note Implementation of the Otsu Nobuyuki binarisation method -see on wikipedia-
+ * according to experience result, binarisation method works better on a grayscale image.
+ * then this is only working with a grayscale input.
+ * @param gray_in the grayscale input buffer
+ * @param gray_len the grayscale input buffer size
+ * @param bin_len a reference to the otsu binarised buffer size
  *
- *@return uint8_t* output binarised buffer
+ * @return uint8_t* output binarised buffer
  *
- *@exception std::bad_alloc case the output buffer memory allocation failed
+ * @exception std::bad_alloc case the output buffer memory allocation failed
  */
 uint8_t *PixelsManager::grayscale_to_otsu(const uint8_t *gray_in, int gray_len, int &bin_len)
 {
@@ -503,12 +503,10 @@ uint8_t *PixelsManager::get_high_occ_colors(const uint8_t *rgb_in, int rgb_len, 
     // then we'll put each rgb-tuple and occurrences, stores it in a vector of pairs, and sort vector by occurrences
     std::vector<std::pair<rgb_color, int>> vec;
     std::copy(occ.begin(), occ.end(), std::back_inserter<std::vector<std::pair<rgb_color, int>>>(vec));
-    sort(vec.begin(),
-         vec.end(),
-         [](const std::pair<rgb_color, int> &a, const std::pair<rgb_color, int> &b) -> bool
-         {
-             return (a.second > b.second); // sorting by decreasing occurrences number
-         });
+    sort(vec.begin(), vec.end(), [](const std::pair<rgb_color, int> &a, const std::pair<rgb_color, int> &b) -> bool
+                                 {
+                                    return (a.second > b.second); // sorting by decreasing occurrences number
+                                 });
 
     uint8_t *out_buffer = new uint8_t[nb_colors_out * 3]; // output buffer
     if (!out_buffer)
@@ -786,4 +784,261 @@ uint8_t *PixelsManager::overscreen_color(const uint8_t *rgb_in, int rgb_len, con
 
     delete[] gray;
     return rgb_gray;
+}
+
+
+/**
+ * @brief Method for bluring an input rgb buffer
+ * @details Method based on default neighbours mean
+ *  
+ * @param rgb_in the input rgb buffer
+ * @param rgb_len input rgb buffer size
+ * @param width the width of the rgb buffer
+ * @param height the height of the rgb buffer
+ * @param side_neigbours number of neighbours to use.
+ * @note side_neighbours indicates the radius in which neighbours wi'll be took. 
+ * 
+ * @exception std::bad_alloc if output memory allocation failed
+ * @return uint8_t* the blurred buffer
+ */
+uint8_t *PixelsManager::blur(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int side_neigbours)
+{
+    uint8_t *blur_out = new uint8_t[s_width * s_height * 3]; // output buffer
+    if(!blur_out)
+        throw std::bad_alloc();
+
+    for(int i = 0; i < s_height; ++i)
+    {
+        for(int j = 0; j < s_width; ++j)
+        {
+            int s_r = 0, s_g = 0, s_b = 0, inc = 0;
+            for(int k = -side_neigbours; k <= side_neigbours; ++k)
+            {
+                for(int l = -side_neigbours; l <= side_neigbours; ++l)
+                {
+                    if (i + k < 0 || i + k >= s_height)
+                        continue;
+                    if (j + l < 0 || j + l >= s_width)
+                        continue;   
+                    
+                    s_r += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3)];
+                    s_g += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3) + 1];
+                    s_b += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3) + 2];
+                    ++inc;
+                }
+            }
+
+            blur_out[(i * s_width * 3) + (j * 3)] =  s_r / inc;       
+            blur_out[(i * s_width * 3) + (j * 3) + 1] = s_g / inc;       
+            blur_out[(i * s_width * 3) + (j * 3) + 2] = s_b / inc;       
+        }
+    }
+
+    return blur_out; 
+}
+
+
+/**
+ * @brief Method for bluring an input rgb buffer
+ * @details A non-linear, edge-preserving, and noise-reducing smoothing filter for images. 
+ * It replaces the intensity of each pixel with a weighted average of intensity values from nearby pixels. 
+ * This weight is based on a Gaussian distribution.
+ *  
+ * @param rgb_in the input rgb buffer
+ * @param rgb_len input rgb buffer size
+ * @param width the width of the rgb buffer
+ * @param height the height of the rgb buffer
+ * @param side_neigbours number of neighbours to use.
+ * @param sigma sigma parameter of a gaussian repartition, more it'll be weak, more distance will influence weight.
+ * @note side_neighbours indicates the radius in which neighbours wi'll be took. 
+ * 
+ * @exception std::bad_alloc if output memory allocation failed
+ * @return uint8_t* the blurred buffer
+ */
+uint8_t *PixelsManager::gaussian_blur(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int side_neigbours, float sigma)
+{
+    uint8_t *blur_out = new uint8_t[s_width * s_height * 3]; // output buffer
+    if(!blur_out)
+        throw std::bad_alloc();
+
+    // computing all pixels weights by distance in a radius of neighbours numbers input
+    std::map<int, float> pos_weight;
+    for(int i = -side_neigbours; i <= side_neigbours; ++i)
+        for(int j = -side_neigbours; j <= side_neigbours; ++j)
+            pos_weight[i+j] = (1 / (sigma * sigma * 2 * 3.14)) * exp((-pow((i - ((float)side_neigbours / 2)), 2.0) - (std::pow((j - ((float)side_neigbours / 2)), 2.0))) / (2 * sigma * sigma));
+    
+    for(int i = 0; i < s_height; ++i)
+    {
+        for(int j = 0; j < s_width; ++j)
+        {
+            float s_r = 0, s_g = 0, s_b = 0, inc = 0;
+            for(int k = -side_neigbours; k <= side_neigbours; ++k)
+            {
+                for(int l = -side_neigbours; l <= side_neigbours; ++l)
+                {
+                    if (i + k < 0 || i + k >= s_height)
+                        continue;
+                    if (j + l < 0 || j + l >= s_width)
+                        continue;   
+
+                    int pos = k + l;
+                    s_r += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3)] * pos_weight[pos];
+                    s_g += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3) + 1] * pos_weight[pos];
+                    s_b += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3) + 2] * pos_weight[pos];
+                    inc = inc + pos_weight[pos];
+                }
+            }
+            blur_out[(i * s_width * 3) + (j * 3)] =  s_r / inc;   
+            blur_out[(i * s_width * 3) + (j * 3) + 1] = s_g / inc;       
+            blur_out[(i * s_width * 3) + (j * 3) + 2] = s_b / inc;
+        }
+    }
+    return blur_out; 
+}
+
+
+/**
+ * @brief Method for bluring a part of an image by coords
+ * 
+ * @param rgb_in input rgb buffer
+ * @param rgb_len input rgb buffer size
+ * @param s_width rgb buffer width
+ * @param s_height rgb buffer height
+ * @param x_start start slicing position (x axis, from 0)
+ * @param y_start start slicing position (y axis, from 0)
+ * @param x_end slicing end position (x axis, excluded)
+ * @param y_end slicing end position (y axis, excluded)
+ * @param side_neigbours number of neighbours to use.
+ * 
+ * @return uint8_t* 
+ * @exception std::bad_alloc() in case output buffer memory allocation failed
+ */
+uint8_t *PixelsManager::blur_part(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int x_start, int y_start, int x_end, int y_end, int side_neigbours)
+{
+    uint8_t *blur_out = new uint8_t[rgb_len]; // output buffer
+    if(!blur_out)
+        throw std::bad_alloc();
+
+    auto blured = PixelsManager::blur(rgb_in, rgb_len, s_width, s_height, side_neigbours); // getting blured image
+    auto blured_part = PixelsUtilities::get_rgb_part(blured, rgb_len, s_width, s_height, x_start, y_start, x_end, y_end); // slicing blured image
+
+    int i = 0;
+    int start_pos = (y_start * s_width * 3) + (x_start * 3);
+
+    // merging...
+    std::memcpy(blur_out, rgb_in, start_pos); // copying first unblured pixels
+    for (i = 0; i < (y_end - y_start); ++i)
+    {
+        std::memcpy(blur_out + start_pos + (i * s_width * 3), blured_part + (x_end - x_start) * 3 * i, (x_end - x_start) * 3); // blured pixels
+        std::memcpy(blur_out + start_pos + (i * s_width * 3) + (x_end - x_start) * 3, rgb_in + start_pos + ((i + 1) * s_width * 3) + (x_end - x_start) * 3, (s_width - (x_end - x_start)) * 3); // unblured pixels
+    }
+    std::memcpy(blur_out + start_pos + (i * s_width * 3), rgb_in + start_pos + (i * s_width * 3), (s_width * s_height * 3) - (start_pos + (i * s_width * 3))); // rest of unblured pixels
+
+    delete[] blured;
+    delete[] blured_part;
+
+    return blur_out;      
+}
+
+
+/**
+ * @brief Method for bluring a part of an image in a rgb buffer by binarised buffer
+ * @details it consist to an input image, pixels to blur are specified by an input binary buffer (white to blur the pixel and black to ignore). 
+ * 
+ * @param rgb_in input rgb buffer
+ * @param rgb_len input rgb buffer size
+ * @param s_width rgb buffer width
+ * @param s_height rgb buffer height
+ * @param bin_in input binary buffer
+ * @param side_neigbours number of neighbours to use.
+ * 
+ * @return uint8_t* 
+ * @note the binarised buffer must contain only one information by pixel, meaning that for a (r,g,b) tuple in rgb_in, bin_in must only contain 
+ * luminance information(0 for black and 255 for white)
+ * @exception std::bad_alloc() in case output buffer memory allocation failed
+ */
+uint8_t *PixelsManager::blur_part(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, const uint8_t *bin_in, int side_neigbours)
+{
+    uint8_t *blur_out = new uint8_t[rgb_len]; // output buffer
+    if(!blur_out)
+        throw std::bad_alloc();
+
+    auto blured = PixelsManager::blur(rgb_in, rgb_len, s_width, s_height, side_neigbours); // getting blured image
+
+    for(int i = 0, j = 0; i < rgb_len; i += 3, ++j) 
+    {
+        if(bin_in[j] == 255) // if white, assigning blured pixels...
+        {
+            blur_out[i] = blured[i];
+            blur_out[i + 1] = blured[i + 1];
+            blur_out[i + 2] = blured[i + 2];
+        }
+        else  // else, ignoring and setting raw values...
+        {
+            blur_out[i] = rgb_in[i];
+            blur_out[i + 1] = rgb_in[i + 1];
+            blur_out[i + 2] = rgb_in[i + 2];
+        }
+    }
+
+    delete[] blured;
+
+    return blur_out;   
+}
+
+
+/**
+ * @brief Method for edges detection from an input rgb buffer
+ * @details based on gaussian density probability for pixels repartition. 
+ * 
+ * @param rgb_in input rgb buffer
+ * @param rgb_len input rgb buffer size
+ * @param s_width rgb buffer width
+ * @param s_height rgb buffer height
+ * @param iter_number number of iterations(bigger iterations will product bigger edges)
+ * 
+ * @exception std::bad_alloc() in case output buffer memory allocation failed
+ * @return uint8_t* binarised buffer, border wi'll be in black and rest in white
+ */
+uint8_t *PixelsManager::edge_detection(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int iter_number)
+{
+    uint8_t *bin_out = new uint8_t[rgb_len]; // output buffer
+    if(!bin_out)
+        throw std::bad_alloc();
+
+    // computing all pixels weights by distance in a radius of neighbours numbers input
+    float sigma = 2;
+    std::map<int, float> pos_weight;
+    for(int i = -iter_number; i <= iter_number; ++i)
+        for(int j = -iter_number; j <= iter_number; ++j)
+            pos_weight[i+j] = (1 / (sigma * sigma * 2 * 3.14)) * exp((-pow((i - ((float)iter_number / 2)), 2.0) - (std::pow((j - ((float)iter_number / 2)), 2.0))) / (2 * sigma * sigma));
+
+    for(int i = 0; i < s_height; ++i)
+    {
+        for(int j = 0; j < s_width; ++j)
+        {
+            float s_r = 0, s_g = 0, s_b = 0, inc = 0;
+            for(int k = -iter_number; k <= iter_number; ++k)
+            {
+                for(int l = -iter_number; l <= iter_number; ++l)
+                {
+                    if (i + k < 0 || i + k >= s_height)
+                        continue;
+                    if (j + l < 0 || j + l >= s_width)
+                        continue;   
+                    
+                    int pos = k + l;
+                    s_r += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3)] * pos_weight[k + l];
+                    s_g += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3) + 1] * pos_weight[k + l];
+                    s_b += rgb_in[((i + k) * s_width * 3) + ((j + l) * 3) + 2] * pos_weight[k + l];
+                    inc += pos_weight[k + l];
+                }
+            }
+            auto elt = 255 - std::abs(rgb_in[(i * s_width * 3) + (j * 3)] - (s_r / inc));
+            bin_out[(i * s_width * 3) + (j * 3)] =  elt; 
+            bin_out[(i * s_width * 3) + (j * 3) + 1] = elt;
+            bin_out[(i * s_width * 3) + (j * 3) + 2] = elt;
+        }
+    }
+    return bin_out;
 }

@@ -36,13 +36,12 @@ std::vector<std::tuple<uint8_t, uint8_t, uint8_t>> PixelsUtilities::get_rgb_poss
  * @param s_height height of the grayscale buffer(number of lines")
  * @param relative_row rows values for move
  * @param relative_col columns values for move
- * @param enable_skipping enable throwing exception if the wanted value is not in range of the gray entry
  *
  * @return value of the pixel in indicated place
  *
  * @exception std::out_of_range if the relatives input positions couldn't be attemp(out of range).
  */
-uint8_t PixelsUtilities::get_luminance_at(uint8_t *gray_in, int actual_position, int s_width, int s_height, int relative_row, int relative_col)
+uint8_t PixelsUtilities::get_luminance_at(const uint8_t *gray_in, int actual_position, int s_width, int s_height, int relative_row, int relative_col)
 {
     int act_row{(actual_position / s_width) + 1};
     int act_col{actual_position - ((act_row - 1) * s_width) + 1};
@@ -61,27 +60,26 @@ uint8_t PixelsUtilities::get_luminance_at(uint8_t *gray_in, int actual_position,
  * @details This method permit to move (while reading) in a rgb buffer relatively to an input start position.
  * you can move in the buffer by rows, columns or both.
  *
- * @param rgb_in grayscale buffer input
+ * @param rgb_in rgb buffer input
  * @param actual_position input position into the buffer
  * @param s_width width of the rgb buffer(number of pixels by "line")
  * @param s_height height of the rgb buffer(number of lines")
  * @param relative_row rows values for move
  * @param relative_col columns values for move
  *
- * @return value of the pixel in indicated place
- *
- * @exception std::runtime_error if the relatives positions couldn't be found(out of range).
+ * @return buffer of the pixel in indicated place
+ * @warning if the relatives positions couldn't be found(out of range), return nullptr
  */
-uint8_t *PixelsUtilities::get_rgb_at(uint8_t *rgb_in, int actual_pix_pos, int s_width, int s_height, int relative_row, int relative_col)
+uint8_t *PixelsUtilities::get_rgb_at(const uint8_t *rgb_in, int actual_pix_pos, int s_width, int s_height, int relative_row, int relative_col)
 {
-    int act_row{(actual_pix_pos / s_width) + 1};
-    int act_col{actual_pix_pos - ((act_row - 1) * s_width) + 1};
+    int act_row {actual_pix_pos / s_width};
+    int act_col{(actual_pix_pos - (act_row * s_width)) % s_width};
 
-    if (act_row + relative_row > s_height || act_row + relative_row < 0)
-        throw(std::runtime_error("bad relative_row input"));
+    if (act_row + relative_row > s_height - 1 || act_row + relative_row < 0)
+        return nullptr;
 
-    else if (act_col + relative_col > s_width || act_col + relative_col < 0)
-        throw(std::runtime_error("bad relative_col input"));
+    else if (act_col + relative_col > s_width - 1 || act_col + relative_col < 0)
+        return nullptr;
 
     uint8_t *rgb_pix_out = new uint8_t[3];
     rgb_pix_out[0] = rgb_in[3 * (actual_pix_pos + (relative_row * s_width) + relative_col)];
@@ -90,6 +88,7 @@ uint8_t *PixelsUtilities::get_rgb_at(uint8_t *rgb_in, int actual_pix_pos, int s_
 
     return rgb_pix_out;
 }
+
 
 /**
  * @brief flipping bottom-left pixelsBuffer to top-left
@@ -256,4 +255,43 @@ void PixelsUtilities::kMeansClustering(std::vector<PixelsUtilities::Kmean_point>
             centroid->b = sumB[clusterId] / nPoints[clusterId];
         }
     }
+}
+
+
+/**
+ * @brief Get rgb part of an image from a rgb buffer
+ * 
+ * @param rgb_in input rgb buffer
+ * @param rgb_len input rgb buffer size
+ * @param s_width the width of the rgb buffer
+ * @param s_height the height of the rgb buffer
+ * @param x_start start slicing position (x axis, from 0)
+ * @param y_start start slicing position (y axis, from 0)
+ * @param x_end slicing end position (x axis, excluded)
+ * @param y_end slicing end position (y axis, excluded)
+ * 
+ * @return uint8_t* sliced buffer
+ * @exception std::bad_alloc() in case the ouput memory allocation failed
+ * @exception std::runtime_error() in case of wrong slicing coordinates.
+ */
+uint8_t *PixelsUtilities::get_rgb_part(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int x_start, int y_start, int x_end, int y_end)
+{
+    // output buffer
+    uint8_t *sliced_out = new uint8_t[(x_end - x_start) * (y_end - y_start) * 3]; 
+    if (!sliced_out)
+        throw std::bad_alloc();
+    
+    // testing errors in positions
+    if ( (x_end - x_start) <= 0 || (y_end - y_start) <= 0)
+        throw std::runtime_error("Bad slicing positions in get_rgb_part()");    
+    if ( x_start >= s_width || y_start >= s_height)
+        throw std::runtime_error("Bad slicing positions in get_rgb_part()");
+    if ( x_end >= s_width  || y_end >= s_height)
+        throw std::runtime_error("Bad slicing positions in get_rgb_part()");
+
+    int start_pos = (y_start * s_width * 3) + (x_start * 3);
+    for (int i = 0; i < (y_end - y_start); ++i)
+        std::memcpy(sliced_out + (i * (x_end - x_start) * 3), rgb_in + start_pos + i * (s_width * 3), (x_end - x_start) * 3);
+    
+    return sliced_out;
 }
