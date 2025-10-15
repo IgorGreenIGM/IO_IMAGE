@@ -15,7 +15,7 @@ This project aims to provide a deep understanding of the low-level mechanics of 
     *   [On Linux / macOS](#on-linux--macos)
     *   [On Windows](#on-windows)
 4.  [Usage](#-usage)
-5.  [Project Structure](#-project-structure)
+5.  [Examples](#-examples)
 6.  [Author](#-author)
 7.  [License](#-license)
 
@@ -133,24 +133,56 @@ The main executable is a demo program that applies a few filters to a source ima
     - `gray.png`: A grayscale version of the original image.
     - `blurred.png`: A blurred version of the original image.
 
-## 📁 Project Structure
+## 📁 Examples
 
-```
-.
-├── bin/                # Binary and object files
-├── include/            # Library header files
-│   ├── PNG/
-│   └── PixelsManager/
-├── lib/                # External libraries (zlib, glut)
-├── src/                # Source (.cpp) files
-│   ├── PNG/
-│   └── PixelsManager/
-├── compile.bat         # Windows compilation script
-├── link.bat            # Windows linking script
-├── Makefile            # Makefile for Unix-like systems
-├── origin.png          # Input image (must be provided by the user)
-└── Readme.md           # This file
-```
+The `/Examples` directory contains visual results showcasing the library's core features. Here is a preview of the algorithms in action.
+
+### Binarization (Otsu's Method)
+Otsu's method segments an image into black and white by finding an optimal threshold to separate the foreground from the background.
+
+| Original | Grayscale | Binarized Result |
+|:---:|:---:|:---:|
+| ![Original Otsu](Examples/otsu%20method/origin.png) | ![Grayscale Otsu](Examples/otsu%20method/gray.png) | ![Binarised Otsu](Examples/otsu%20method/binarised.png) |
+
+---
+### LUT (Look-Up Table) Colorization
+A grayscale image is recolored using a color palette (`lut.png`) from another image.
+
+| Original | Palette (LUT) | Colorized Result |
+|:---:|:---:|:---:|
+| ![Original LUT](Examples/lut%20colorisation/girl/original2.png) | ![Palette LUT](Examples/lut%20colorisation/girl/lut.png) | ![Result LUT](Examples/lut%20colorisation/girl/out.png) |
+
+---
+### Dominant Color Detection (K-Means)
+The K-Means algorithm extracts the most representative colors from the original image to create a palette, which is then used for recolorization.
+
+| Original | Extracted Palette (KMeans) | Result |
+|:---:|:---:|:---:|
+| ![Original K-Means](Examples/lut%20kmean/original3.png) | ![Palette K-Means](Examples/lut%20kmean/lut.png) | ![Result K-Means](Examples/lut%20kmean/out.png) |
+
+---
+### Edge Detection
+An edge detection algorithm is applied to extract shapes and objects from the image.
+
+| Original | Edges Detected |
+|:---:|:---:|
+| ![Original Edges](Examples/edges%20detection/38.png) | ![Result Edges](Examples/edges%20detection/_b38.png) |
+
+---
+### Color Overscreening
+The two most frequent colors in the image are isolated and highlighted, while the rest of the image is converted to grayscale.
+
+| Original | Overscreened Result |
+|:---:|:---:|
+| ![Original Overscreen](Examples/over_screen/origin4.png) | ![Result Overscreen](Examples/over_screen/over_screen%202%20most%20colors.png) |
+
+### Grayscale Conversion
+
+Convert RGB/HSL color spaces values to Grayscale images 
+
+| Original | Grayscale |
+|:---:|:---:|
+| ![Original Image](Examples/rgb-to-grascale/origin.png) | ![Converted](Examples/rgb-to-grascale/gray.png) | ![Binarised Otsu](Examples/otsu%20method/binarised.png) |
 
 ## ✍️ Author
 
