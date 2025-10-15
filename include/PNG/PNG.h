@@ -7,6 +7,7 @@
 #include <fstream>
 #include <GL/gl.h>
 #include <iostream>
+#include <cstdint>
 #include <stdexcept>
 
 #include "Chunks/IHDR_CHUNK.h"

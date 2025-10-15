@@ -3,7 +3,7 @@
 
 
 bool CRC32::crc_table_computed = false; //static bool for test if the table is already computes or not
-unsigned long CRC32::crc_table[255];    //crc table static var exempt recomputation many crc_table recompution
+uint32_t CRC32::crc_table[256];    //crc table static var exempt recomputation many crc_table recompution
 
 /**
  * @brief crc calculation method
@@ -12,7 +12,7 @@ unsigned long CRC32::crc_table[255];    //crc table static var exempt recomputat
  * @param chunkDatasLen the size of the input buffer (chunkDatas)
  * @return the crc32 calculated
  */
-unsigned long CRC32::getCRC32(uint8_t *chunkDatas, int chunkDatasLen)
+uint32_t CRC32::getCRC32(uint8_t *chunkDatas, int chunkDatasLen)
 {
     return CRC32_update(0xffffffffL, chunkDatas, chunkDatasLen) ^ 0xffffffffL;
 }
@@ -23,7 +23,7 @@ unsigned long CRC32::getCRC32(uint8_t *chunkDatas, int chunkDatasLen)
  */
 void CRC32::CRC32_table_compute()
 {
-    unsigned long c;
+    uint32_t c;
     int i, j;
     for (i = 0; i < 256; i++)
     {
@@ -46,9 +46,9 @@ void CRC32::CRC32_table_compute()
  * @param crc 
  * @param dataCHUNK 
  * @param len 
- * @return unsigned long 
+ * @return uint32_t 
  */
-unsigned long CRC32::CRC32_update(unsigned long crc, uint8_t *dataCHUNK, int len)
+uint32_t CRC32::CRC32_update(uint32_t crc, uint8_t *dataCHUNK, int len)
 {
     if (!crc_table_computed)
         CRC32_table_compute();

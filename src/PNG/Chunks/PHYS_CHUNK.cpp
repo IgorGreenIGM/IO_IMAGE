@@ -76,7 +76,7 @@ void PHYS_CHUNK::save(std::ofstream &outputStream)
     Utilities::stream_write(ppuXArrayPtr, 4, outputStream);
     Utilities::stream_write(ppuYArrayPtr, 4, outputStream);
     Utilities::stream_write(&m_unitSpecifier, 1, outputStream);
-    Utilities::stream_write(crc32ArrayPtr, sizeof(unsigned long), outputStream);
+    Utilities::stream_write(crc32ArrayPtr, 4, outputStream);
 
     delete[] lengthArrayPtr;    delete[] crc32ArrayPtr; //freeing the bytes arrays
     delete[] ppuXArrayPtr;     delete[] ppuYArrayPtr;

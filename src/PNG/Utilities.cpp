@@ -15,10 +15,8 @@ uint8_t *Utilities::int_to_uint8(int number)
     if (is_bigEndian())
         result = ptr;
     else
-    {
         result = invertArray(ptr, 4);
-        delete[] ptr;
-    }
+
     return result;
 }
 

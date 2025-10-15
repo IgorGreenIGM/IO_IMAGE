@@ -5,6 +5,7 @@
 #include <vector>
 #include <numeric>
 #include <iostream>
+#include <cstdint>
 #include <algorithm>
 #include <exception>
 #include <functional>
@@ -30,8 +31,8 @@ namespace PixelsUtilities
      */
 
     void flipPixels(uint8_t *pixelsBuffer, int s_width, int s_heigth, int colorChannel);
-    uint8_t *get_rgb_at(uint8_t *rgb_in, int actual_position, int s_width, int s_height, int relative_row, int relative_col);
-    uint8_t get_luminance_at(uint8_t *gray_in, int actual_position, int s_width, int s_height, int relative_row, int relative_col);
+    uint8_t *get_rgb_at(const uint8_t *rgb_in, int actual_position, int s_width, int s_height, int relative_row, int relative_col);
+    uint8_t get_luminance_at(const uint8_t *gray_in, int actual_position, int s_width, int s_height, int relative_row, int relative_col);
     std::vector<std::tuple<uint8_t, uint8_t, uint8_t>> get_rgb_possibilities(std::function<bool(const uint8_t, const uint8_t, const uint8_t)> f) noexcept;
 
 
@@ -57,6 +58,8 @@ namespace PixelsUtilities
     };
 
     void kMeansClustering(std::vector<PixelsUtilities::Kmean_point> &points, int iters, int nb_clusters);
+    uint8_t *get_rgb_part(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int x_start, int y_start, int x_end, int y_end);
+
 };
 
 #endif //_PIXELS_UTILITIES_H_INCLUDED_

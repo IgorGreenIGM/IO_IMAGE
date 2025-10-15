@@ -1,6 +1,7 @@
+#include <cstdint>
 
-#include "../../include/PixelsManager/PixelsUtilities.h"
 #include "../../include/PixelsManager/PixelsManager.h"
+#include "../../include/PixelsManager/PixelsUtilities.h"
 
 /**
  * @brief method to get all R,G,B 3-tutple possibilities from an input value which verifies a specific condition

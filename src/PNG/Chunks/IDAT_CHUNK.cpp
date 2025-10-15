@@ -1,5 +1,6 @@
 
-#include "../../../include/zlib/zlib.h"
+// #include "../../../include/zlib/zlib.h"
+#include <zlib.h>
 #include "../../../include/PNG/CRC32.h"
 #include "../../../include/PNG/Utilities.h"
 #include "../../../include/PNG/Chunks/IDAT_CHUNK.h"

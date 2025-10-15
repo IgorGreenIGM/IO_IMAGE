@@ -82,7 +82,7 @@ void IHDR_CHUNK::save(std::ofstream &outputStream)
     Utilities::stream_write(widthArrayPtr, 4, outputStream);
     Utilities::stream_write(heightArrayPtr, 4, outputStream);
     Utilities::stream_write(m_data, 5, outputStream);
-    Utilities::stream_write(crc32ArrayPtr, sizeof(unsigned long), outputStream);
+    Utilities::stream_write(crc32ArrayPtr, 4, outputStream);
 
     delete[] lengthArrayPtr;    delete[] crc32ArrayPtr;     //freeing the bytes arrays
     delete[] widthArrayPtr;     delete[] heightArrayPtr;

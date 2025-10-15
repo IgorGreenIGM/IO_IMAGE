@@ -6,6 +6,7 @@
 #include <tuple>
 #include <thread>
 #include <future>
+#include <cstdint>
 #include <vector>
 #include <cstring>
 #include <numeric>
@@ -64,6 +65,8 @@ namespace PixelsManager
     uint8_t *lut_to_rgb_thread(const uint8_t *gray_in, int gray_len, const uint8_t *rgb_lut, int lut_len, int thread_number);
     uint8_t *overscreen_color(const uint8_t *rgb_in, int rgb_len, const uint8_t *rgb_toscreen, int rgb_toscreen_len);
     
+    uint8_t *blur(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int side_neigbours);
+    uint8_t *gaussian_blur(const uint8_t *rgb_in, int rgb_len, int s_width, int s_height, int side_neigbours, float sigma);
     /**
      * @namespace gray_level
      */

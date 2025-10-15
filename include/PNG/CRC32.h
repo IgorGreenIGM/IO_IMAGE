@@ -2,6 +2,7 @@
 #define _CRC_32_H_INCLUDED_
 
 #include <iostream>
+#include <cstdint>
 
 /**
  * @brief CRC32 class, for CRC32 algorithm. 
@@ -13,11 +14,11 @@ class CRC32
         CRC32();
         ~CRC32();
         void crc_table_compute();
-        static unsigned long getCRC32(uint8_t *chunkDatas, int chunkLen);
-        static unsigned long CRC32_update(unsigned long crc, uint8_t *dataCHUNK, int len);
+        static uint32_t getCRC32(uint8_t *chunkDatas, int chunkLen);
+        static uint32_t CRC32_update(uint32_t crc, uint8_t *dataCHUNK, int len);
         static void CRC32_table_compute(void);
 
-        static unsigned long crc_table[255];
+        static uint32_t crc_table[256];
         static bool crc_table_computed;
 };
 

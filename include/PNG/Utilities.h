@@ -4,6 +4,7 @@
 #include <map>
 #include <cmath>
 #include <vector>
+#include <cstdint>
 #include <fstream>
 #include <cstring>
 #include <iostream>

@@ -1,9 +1,9 @@
 ### __PROJECT_MAKEFILE__ ###
 
 CC = g++
-CFLAGS = -m32 -std=c++17 -Ofast
-LDFLAGS = -m32 -L"./lib" -lopengl32 -lglut32 -lz 
-EXEC = bin/output.exe
+CFLAGS = -std=c++17 -Ofast
+LDFLAGS = -lGLU -lGL -lglut -lz
+EXEC = bin/output
 
 all : $(EXEC)
 

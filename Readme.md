@@ -1,59 +1,161 @@
-<h3 align="center">IO_IMAGE LIBRARY</h3>
+# IO_IMAGE: C++ Computer Vision Library
 
-<p align="center"> Full C++ Computer Vision Library 
-    <br> 
-</p>
+[![Language](https://img.shields.io/badge/Language-C%2B%2B17-blue.svg)](https://isocpp.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## 🧐 Problem Statement <a name = "problem_statement"></a>
+**IO_IMAGE** is an image processing and computer vision library written entirely in C++17. Its key feature is having zero dependencies on third-party imaging libraries (like libpng or OpenCV) for PNG file handling. It implements its own PNG reader and writer from scratch, along with a collection of computer vision algorithms.
 
-Cause arrived to a century where, everything is dominated by esthetic form, design and graphical art, the problematic to automate some tasks to gain productivity and efficiency bornt. Computer Vision(CV) means to the grouping of all methods of allowing this automating. But, despite theses "methods" which are however very accessibles remained unknow to the majority.
-    
-Then the necessity of creation of a library including all theses was underlined.
-What this library promote is non only facilitate access but also the deep comprehension about Computer Vision, bringing and regrouping methods, guides, and reflexions about the aroused problematic.       
+This project aims to provide a deep understanding of the low-level mechanics of image processing, from file format management to the implementation of fundamental algorithms.
 
-## ⛓️ Limitations <a name = "limitations"></a>
+## Table of Contents
 
-One of the principal problem in computer vision is conserving and retrieving informations. In fact, in most cases catching and conserving informations are accompagned to errors, for example taking a photo with any device will never be exact as eyes see.
+1.  [Features](#-features)
+2.  [Prerequisites](#-prerequisites)
+3.  [Building from Source](#-building-from-source)
+    *   [On Linux / macOS](#on-linux--macos)
+    *   [On Windows](#on-windows)
+4.  [Usage](#-usage)
+5.  [Project Structure](#-project-structure)
+6.  [Author](#-author)
+7.  [License](#-license)
 
-What we'll attemp is to try to retrieve with the minimal error as possible the initial informations, with well-approximative algorithms and logicals issues.
+## ✨ Features
 
-## 🏁 Getting Started <a name = "getting_started"></a>
+The IO_IMAGE library offers a diverse set of tools for image manipulation.
 
-No special installation needed, just copy and past "src" and "include" folders in your project directory, a makefile and windows bash script are provided by default.
-Note : for display purpose, a save to PNG moule is installed by default, just delete them if you want.
+#### PNG File Handling
+- **Read and write PNG files** without external dependencies.
+- Handling of critical (IHDR, IDAT, IEND) and ancillary (pHYs) chunks.
+- Implementation of filter algorithms (Sub, Up, Average, Paeth) and compression/decompression via the bundled `zlib`.
 
-##  ✔ Features <a name = "features">
+#### Color and Pixel Manipulation
+- Color space conversion (RGB, HSL, HSV).
+- Color mode conversion (RGB to Grayscale, RGB to Binary).
+- Color channel extraction (Red, Green, Blue).
+- Colorization via Look-Up Table (LUT).
 
--  colors spaces conversion(rgb, hsl, hsv, ...)
--  image segmentation(threshold method and otsu nobuyuki method)
--  dominants color computing(default method and Lloyd algorithm)
--  colorisation by lut (look up table)
--  color overscrenning method(default method and kmean Algorithm)
--  channels extraction(rgb to red, green, blue, ...) 
--  color modes conversion(rgb to gray, rgba to rgb, rgb to binary)
--  blur algorithm based on mean weights
--  gaussian blur algorithm based on gaussian density repartition
--  edge detection algorithm
--  mixed median cut qunatification(in development)
--  luminance to chromatic retrieving by neighbour search(in development)
--  colorisation par neighbour propagation(in development)
--  graphical interface for output using opengl(in development)
--  PNG module for image output(in development)
--  histogram egalisation by parts linear regression (in development)
--  cie Lab and CIE Luv conversion(in development)
--  histogram ploting graph(using Ploter-flag- Module)
--  histogram computing
--  some supports of multithreading
--  ...
+#### Image Processing Algorithms
+- **Image segmentation** (Thresholding and Otsu's method).
+- **Dominant color detection** (Histogram-based and K-Means clustering).
+- **Blur filters** (Mean blur and Gaussian blur).
+- Edge detection.
 
-## ⛏️ Built With C++ [GNU GCC] <a name = "tech_stack"></a>
+#### Image Analysis
+- Histogram computation and plotting.
+- Partial multi-threading support for performance optimization.
 
-Makefile and windows bash compiling and linking files provides.
+## 📋 Prerequisites
 
-## ✍️ Authors <a name = "authors"></a>
+Before building the project, make sure you have the following tools and libraries installed on your system.
 
-[@igorgreenIGM](https://github.com/igorgreenIGM) - Idea & Initial work
+- A **C++17 compliant compiler** (GCC, Clang, or MinGW for Windows).
+- **Make** (for Unix-like systems).
+- Development libraries for:
+  - `zlib`
+  - `OpenGL`
+  - `GLUT`
 
-## 💨 Examples <a name = "Examples"></a>
+#### Dependency Installation Instructions
 
-Various implementations results can be found in the folder "Examples"
+- **On Debian / Ubuntu:**
+  ```sh
+  sudo apt-get update
+  sudo apt-get install build-essential libz-dev libglu1-mesa-dev freeglut3-dev
+  ```
+- **On macOS (with [Homebrew](https://brew.sh/)):**
+  ```sh
+  brew install gcc zlib freeglut
+  ```
+- **On Windows:**
+  The easiest environment is using **MinGW-w64**. You can install it via [MSYS2](https://www.msys2.org/) and add the necessary packages. Ensure the MinGW `bin` directory is added to your system's `PATH`.
+
+## ⚙️ Building from Source
+
+First, clone the repository:
+```sh
+git clone https://github.com/IgorGreenIGM/IO_IMAGE
+cd IO_IMAGE
+```
+
+### On Linux / macOS
+
+The project can be easily built using the provided `Makefile`.
+
+1.  Open a terminal in the project's root directory.
+2.  Run the `make` command to build the project:
+    ```sh
+    make
+    ```
+3.  The executable will be generated at `bin/output`.
+
+To clean up object files and the executable, you can use:
+```sh
+make clean    # Removes object files (*.o)
+make mrproper # Removes object files and the executable
+```
+
+### On Windows
+
+The `compile.bat` and `link.bat` batch scripts are provided for 32-bit compilation with a MinGW-like toolchain.
+
+1.  Open a Command Prompt (cmd) or PowerShell terminal in the project's root directory.
+2.  **Step 1: Compile source files**
+    Run the `compile.bat` script. It will compile the `.cpp` source files into object files (`.o`) and move them to the `bin/link` directory.
+    ```cmd
+    compile.bat
+    ```
+3.  **Step 2: Link object files**
+    Run the `link.bat` script. It will link the object files to create the final executable.
+    ```cmd
+    link.bat
+    ```
+4.  The executable will be generated at `bin\output.exe`.
+
+## 🚀 Usage
+
+The main executable is a demo program that applies a few filters to a source image.
+
+1.  **Prepare the input image:**
+    Place a PNG image named `origin.png` in the project's root directory. The program will perform its operations on this image.
+
+2.  **Run the executable:**
+    - **On Linux / macOS:**
+      ```sh
+      ./bin/output
+      ```
+    - **On Windows:**
+      ```cmd
+      .\bin\output.exe
+      ```
+
+3.  **Check the results:**
+    The program will generate two new images in the root directory:
+    - `gray.png`: A grayscale version of the original image.
+    - `blurred.png`: A blurred version of the original image.
+
+## 📁 Project Structure
+
+```
+.
+├── bin/                # Binary and object files
+├── include/            # Library header files
+│   ├── PNG/
+│   └── PixelsManager/
+├── lib/                # External libraries (zlib, glut)
+├── src/                # Source (.cpp) files
+│   ├── PNG/
+│   └── PixelsManager/
+├── compile.bat         # Windows compilation script
+├── link.bat            # Windows linking script
+├── Makefile            # Makefile for Unix-like systems
+├── origin.png          # Input image (must be provided by the user)
+└── Readme.md           # This file
+```
+
+## ✍️ Author
+
+-   **[@igorgreenIGM](https://github.com/igorgreenIGM)** - Idea & Initial work
+
+## 📜 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
